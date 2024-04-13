@@ -15,12 +15,12 @@ namespace BlitzModIslanders
 {
     public class Blitz : MelonMod
     {
-        private CountDown? cd;
+        private GameCountDown? cd;
         private basicCountDown loggingCD = new basicCountDown(2,1,0);
 
         public override void OnInitializeMelon()
         {
-            this.cd = new CountDown(0f, 1f, 10f, 0f, 60f);
+            this.cd = new GameCountDown(0f, 1f, 10f, 0f, 60f);
             this.loggingCD.UnFreezeCD();
         }
         public override void OnUpdate()
@@ -30,11 +30,6 @@ namespace BlitzModIslanders
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     this.cd.UnFreezeCD();
-                    //GameObject mill = GameObject.Find("Mill(Clone)");
-                    //mill.gameObject.transform.localScale = new Vector3(10.0f, 1.0f, 2.0f);
-                    //mill.name = "Heyyyy";
-                    //Debug.Log("this is a message");
-                    //MelonEvents.OnGUI.Subscribe(DrawFrozenText, 100);
                 }
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -68,20 +63,22 @@ namespace BlitzModIslanders
                 }
             }
         }
-
-        //public static void DrawFrozenText()
-        //{
-        //    GUI.Label(new Rect(20, 20, 1000, 200), "<b><color=cyan><size=100>Frozen</size></color></b>");
-        //}
-
     }
 
     public class basicCountDown
     {
-        private double value;
-        private double decrease;
-        private double minVal;
-        private bool isOnGoing;
+        protected double value;
+        protected double decrease;
+        protected double minVal;
+        protected bool isOnGoing;
+
+        public basicCountDown()
+        {
+            this.value = 1;
+            this.decrease = 1;
+            this.minVal = 0;
+            this.isOnGoing = false;
+        }
 
         public basicCountDown(double val, double dec, double min)
         {
@@ -115,21 +112,20 @@ namespace BlitzModIslanders
         }
     }
 
-    public class CountDown 
+    public class GameCountDown : basicCountDown
     {
 
         // variables
-        private double value;
-        private double decrease;
-        private double increase;
-        private double minVal;
-        private double step;
-        private double maxVal;
-        private bool isOnGoing;
+        protected double increase;
+        protected double step;
+        protected double maxVal;
+
+        public GameCountDown() { }
 
         // the cd's max val is relative to other variables so it's set at the start
-        public CountDown(double val, double dec,double inc, double min, double step)
+        public GameCountDown(double val, double dec,double inc, double min, double step)
         {
+
             this.value = val; // base value 0
             this.decrease = dec;// base value 1
             this.increase = inc;// base value 10
@@ -137,25 +133,6 @@ namespace BlitzModIslanders
             this.step = step;// base value 60
             this.maxVal = 6 * step;
             this.isOnGoing = false;
-        }
-
-        public void FreezeCD()
-        {
-            this.isOnGoing = false;
-        }
-
-        public void UnFreezeCD()
-        { 
-            this.isOnGoing = true; 
-        }
-
-        // how to decrease its value
-        public void GoesDown(double time)
-        {
-            if (this.isOnGoing)
-            {
-                this.value = Math.Max(this.value - this.decrease * time, this.minVal);
-            }
         }
 
         //how to increase its value
@@ -173,7 +150,4 @@ namespace BlitzModIslanders
         }
 
     }
-
-
-
 }
