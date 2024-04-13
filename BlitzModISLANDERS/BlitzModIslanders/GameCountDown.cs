@@ -14,7 +14,7 @@ namespace BlitzModIslanders
         public GameCountDown() { }
 
         // the cd's max val is relative to other variables so it's set at the start
-        public GameCountDown(double val, double dec, double inc, double min, double step)
+        public GameCountDown(double val, double dec, double inc, double min, double step, double toMax)
         {
 
             this.value = val; // base value 0
@@ -22,7 +22,7 @@ namespace BlitzModIslanders
             this.increase = inc;// base value 10
             this.minVal = min;// base value 0
             this.step = step;// base value 60
-            this.maxVal = 6 * step;
+            this.maxVal = toMax * step;
             this.isOnGoing = false;
         }
 

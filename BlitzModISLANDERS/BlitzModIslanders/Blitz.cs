@@ -21,7 +21,7 @@ namespace BlitzModIslanders
 
         public override void OnInitializeMelon()
         {
-            this.cd = new GameCountDown(0f, 1f, 10f, 0f, 60f);
+            this.cd = new GameCountDown(0f, 1f, 10f, 0f, 60f,6f);
             this.loggingCD.UnFreezeCD();
         }
         public override void OnUpdate()
