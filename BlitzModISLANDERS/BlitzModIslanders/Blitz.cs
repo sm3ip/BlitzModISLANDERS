@@ -15,80 +15,104 @@ namespace BlitzModIslanders
 {
     public class Blitz : MelonMod
     {
+        private CountDown? cd;
+
+        public override void OnInitializeMelon()
+        {
+            this.cd = new CountDown(0f, 1f, 10f, 0f, 60f);
+        }
         public override void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (cd != null)
             {
-                GameObject mill = GameObject.Find("Mill(Clone)");
-                mill.gameObject.transform.localScale = new Vector3(10.0f, 1.0f, 2.0f);
-                mill.name = "Heyyyy";
-                Debug.Log("this is a message");
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    this.cd.UnFreezeCD();
+                    //GameObject mill = GameObject.Find("Mill(Clone)");
+                    //mill.gameObject.transform.localScale = new Vector3(10.0f, 1.0f, 2.0f);
+                    //mill.name = "Heyyyy";
+                    //Debug.Log("this is a message");
+                    //MelonEvents.OnGUI.Subscribe(DrawFrozenText, 100);
+                }
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    this.cd.GoesUp();
+                }
+                this.LoggerInstance.Msg("Countdown value : " + this.cd.GetCurrVal());
             }
         }
+
+        public override void OnFixedUpdate()
+        {
+            if (this.cd != null)
+            {
+                this.cd.GoesDown(Time.deltaTime);
+                
+            }
+        }
+
+        //public static void DrawFrozenText()
+        //{
+        //    GUI.Label(new Rect(20, 20, 1000, 200), "<b><color=cyan><size=100>Frozen</size></color></b>");
+        //}
 
     }
 
-    public class CountDown : MelonMod
+    public class CountDown 
     {
 
-        //logging shit
-        private static string CDTAG = "the countdown";
-        //public static CountDown instance;
-        // basic values to test implementation
-        private double value = 0.0f;
-        private double decrease = 1f;
-        private double increase = 10f;
-        private double minVal = 0.0f;
-        private double step = 60f;
+        // variables
+        private double value;
+        private double decrease;
+        private double increase;
+        private double minVal;
+        private double step;
         private double maxVal;
-        //private GameObject randoFolder;
+        private bool isOnGoing;
 
         // the cd's max val is relative to other variables so it's set at the start
-        public override void OnInitializeMelon()
+        public CountDown(double val, double dec,double inc, double min, double step)
         {
-            //instance = this;
+            this.value = val; // base value 0
+            this.decrease = dec;// base value 1
+            this.increase = inc;// base value 10
+            this.minVal = min;// base value 0
+            this.step = step;// base value 60
             this.maxVal = 6 * step;
-            Debug.Log("THIS ISSSSS THE START");
-            //randoFolder = GameObject.Find("Level");
+            this.isOnGoing = false;
         }
 
-        // automatically goes down as time passes
-        public override void OnFixedUpdate()
+        public void FreezeCD()
         {
-            GoesDown();
-            Debug.Log("please work");
-            // console and GUI logging 
-            //instance.LoggerInstance.Msg("HEYYYYYYYYYYYYYYYYYYY");
-            //MelonEvents.OnGUI.Unsubscribe(DrawCDValue);
-            //MelonEvents.OnGUI.Subscribe(DrawCDValue, 100);
-
+            this.isOnGoing = false;
         }
 
-        // to test the build up
-        public override void OnUpdate()
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                this.GoesUp();
-                // randoFolder.gameObject.name = "Hello";
-            }
+        public void UnFreezeCD()
+        { 
+            this.isOnGoing = true; 
         }
-
-        // public static void DrawCDValue()
-        //{
-        //    GUI.Label(new Rect(20, 20, 1000, 200), "<b><color=cyan><size=100>"+"HEYO"+"</size></color></b>");
-        //}
 
         // how to decrease its value
-        private void GoesDown()
+        public void GoesDown(double time)
         {
-            this.value = Math.Max(this.value - this.decrease * Time.fixedDeltaTime, this.minVal);
+            if (this.isOnGoing)
+            {
+                this.value = Math.Max(this.value - this.decrease * time, this.minVal);
+            }
         }
 
         //how to increase its value
         public void GoesUp()
         {
-            this.value = Math.Min(this.value + this.increase, this.maxVal);
+            if (this.isOnGoing)
+            {
+                this.value = Math.Min(this.value + this.increase, this.maxVal);
+            }
+        }
+
+        public double GetCurrVal()
+        {
+            return this.value;
         }
 
     }
