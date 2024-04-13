@@ -11,9 +11,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace BlitzMod
+namespace BlitzModIslanders
 {
-    public class Blitz :MelonMod
+    public class Blitz : MelonMod
     {
         public override void OnUpdate()
         {
@@ -25,6 +25,7 @@ namespace BlitzMod
                 Debug.Log("this is a message");
             }
         }
+
     }
 
     public class CountDown : MelonMod
@@ -58,9 +59,9 @@ namespace BlitzMod
             Debug.Log("please work");
             // console and GUI logging 
             //instance.LoggerInstance.Msg("HEYYYYYYYYYYYYYYYYYYY");
-           //MelonEvents.OnGUI.Unsubscribe(DrawCDValue);
-           //MelonEvents.OnGUI.Subscribe(DrawCDValue, 100);
-     
+            //MelonEvents.OnGUI.Unsubscribe(DrawCDValue);
+            //MelonEvents.OnGUI.Subscribe(DrawCDValue, 100);
+
         }
 
         // to test the build up
@@ -68,12 +69,12 @@ namespace BlitzMod
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-               this.GoesUp();
-               // randoFolder.gameObject.name = "Hello";
+                this.GoesUp();
+                // randoFolder.gameObject.name = "Hello";
             }
         }
 
-       // public static void DrawCDValue()
+        // public static void DrawCDValue()
         //{
         //    GUI.Label(new Rect(20, 20, 1000, 200), "<b><color=cyan><size=100>"+"HEYO"+"</size></color></b>");
         //}
@@ -81,7 +82,7 @@ namespace BlitzMod
         // how to decrease its value
         private void GoesDown()
         {
-            this.value =  Math.Max(this.value - this.decrease * Time.fixedDeltaTime,this.minVal);
+            this.value = Math.Max(this.value - this.decrease * Time.fixedDeltaTime, this.minVal);
         }
 
         //how to increase its value
@@ -91,4 +92,7 @@ namespace BlitzMod
         }
 
     }
+
+
+
 }
