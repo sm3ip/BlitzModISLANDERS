@@ -49,5 +49,18 @@ namespace BlitzModIslanders
         {
             return this.value <= this.minVal;
         }
+
+
+        public double getDecrease()
+        {
+            return this.decrease;
+        }
+
+        public double getMin()
+        {
+            return this.minVal;
+        }
+
+
     }
 }

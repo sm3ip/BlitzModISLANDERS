@@ -16,12 +16,13 @@ namespace BlitzModIslanders
 {
     public class Blitz : MelonMod
     {
-        private GameCountDown? cd;
+        private CDAndRules? cd;
+        private TupleFloatInt[] scoresLimits = { new TupleFloatInt(1, 1), new TupleFloatInt(2, 1.5f), new TupleFloatInt(3, 2.5f), new TupleFloatInt(6, 1) };
         private BasicCountdown loggingCD = new BasicCountdown(2,1,0);
 
         public override void OnInitializeMelon()
         {
-            this.cd = new GameCountDown(0f, 1f, 10f, 0f, 60f);
+            this.cd = new CDAndRules(scoresLimits,0f, 1f, 10f, 0f, 60f);
             this.loggingCD.UnFreezeCD();
         }
         public override void OnUpdate()
@@ -36,7 +37,7 @@ namespace BlitzModIslanders
                 {
                     this.cd.GoesUp();
                 }
-                log("Countdown value : " + this.cd.GetCurrVal());
+                log("Countdown value : " + this.cd.GetCurrVal() + " Multi X"+ this.cd.GetMulti());
             }
         }
 
@@ -62,6 +63,20 @@ namespace BlitzModIslanders
                     this.loggingCD = new BasicCountdown(2, 1, 0);
                     this.loggingCD.UnFreezeCD();
                 }
+            }
+        }
+
+        public void CDInfoLogs()
+        {
+            if (cd != null)
+            {
+                Debug.Log("maxVal : " + this.cd.getMaxVal());
+                Debug.Log("value : " + this.cd.GetCurrVal());
+                Debug.Log("decrease : " + this.cd.getDecrease());
+                Debug.Log("minVal : " + this.cd.getMin());
+                Debug.Log("isonGoing : " + this.cd.GetIsGoin());
+                Debug.Log("increase : " + this.cd.getIncrease());
+                Debug.Log("step : " + this.cd.getStep());
             }
         }
     }
