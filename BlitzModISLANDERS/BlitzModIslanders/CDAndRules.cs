@@ -23,5 +23,36 @@ namespace BlitzModIslanders
 
             this._cd = new GameCountDown(val,dec,inc,min,step,tempMax);
         }
+
+        public void CDGoesUp()
+        {
+            this._cd.GoesUp();
+        }
+
+        public void CDGoesDown(double time)
+        {
+            this._cd.GoesDown(time);
+        }
+
+        public double GetCdVal()
+        {
+            return this._cd.GetCurrVal();
+        }
+
+        public void FreezeCD()
+        {
+            this._cd.FreezeCD();
+        }
+
+        public void UnFreezeCD()
+        {
+            this._cd.UnFreezeCD();
+        }
+
+        public void isDone()
+        {
+            this._cd.isDead();
+        }
+
     }
 }
