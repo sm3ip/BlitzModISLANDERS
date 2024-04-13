@@ -16,10 +16,12 @@ namespace BlitzModIslanders
     public class Blitz : MelonMod
     {
         private CountDown? cd;
+        private basicCountDown loggingCD = new basicCountDown(2,1,0);
 
         public override void OnInitializeMelon()
         {
             this.cd = new CountDown(0f, 1f, 10f, 0f, 60f);
+            this.loggingCD.UnFreezeCD();
         }
         public override void OnUpdate()
         {
@@ -38,7 +40,7 @@ namespace BlitzModIslanders
                 {
                     this.cd.GoesUp();
                 }
-                this.LoggerInstance.Msg("Countdown value : " + this.cd.GetCurrVal());
+                log("Countdown value : " + this.cd.GetCurrVal());
             }
         }
 
@@ -46,8 +48,24 @@ namespace BlitzModIslanders
         {
             if (this.cd != null)
             {
-                this.cd.GoesDown(Time.deltaTime);
-                
+                this.cd.GoesDown(Time.deltaTime);   
+            }
+            if(this.loggingCD != null)
+            {
+                this.loggingCD.GoesDown(Time.deltaTime);
+            }
+        }
+
+        public void log(string msg)
+        {
+            if(loggingCD != null && msg!=null)
+            {
+                if (loggingCD.isDead())
+                {
+                    this.LoggerInstance.Msg(msg);
+                    this.loggingCD = new basicCountDown(2, 1, 0);
+                    this.loggingCD.UnFreezeCD();
+                }
             }
         }
 
@@ -56,6 +74,45 @@ namespace BlitzModIslanders
         //    GUI.Label(new Rect(20, 20, 1000, 200), "<b><color=cyan><size=100>Frozen</size></color></b>");
         //}
 
+    }
+
+    public class basicCountDown
+    {
+        private double value;
+        private double decrease;
+        private double minVal;
+        private bool isOnGoing;
+
+        public basicCountDown(double val, double dec, double min)
+        {
+            this.value = val;
+            this.decrease = dec;
+            this.minVal = min;
+            this.isOnGoing = false;
+        }
+
+        public void GoesDown(double time)
+        {
+            if (this.isOnGoing)
+            {
+                this.value = Math.Max(this.value - this.decrease * time, this.minVal);
+            }
+        }
+
+        public void FreezeCD()
+        {
+            this.isOnGoing = false;
+        }
+
+        public void UnFreezeCD()
+        {
+            this.isOnGoing = true;
+        }
+
+        public bool isDead()
+        {
+            return this.value <= 0;
+        }
     }
 
     public class CountDown 
