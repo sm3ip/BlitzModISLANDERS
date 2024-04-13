@@ -6,7 +6,6 @@ namespace BlitzModIslanders
 {
     public class CDAndRules : GameCountDown
     {
-        //private GameCountDown _cd;
         private TupleFloatInt[] _tupleFloatInts;
         private double[] _scoreLimits;
 
@@ -37,7 +36,17 @@ namespace BlitzModIslanders
             }
             return this._tupleFloatInts[^1].getIntVal();
         }
-        
+
+        public bool GetIsGoin()
+        {
+            return this.isOnGoing;
+        }
+
+        public double getMaxVal()
+        {
+            return this.maxVal;
+        }
+
     }
 
 }
