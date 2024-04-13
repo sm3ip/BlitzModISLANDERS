@@ -47,7 +47,7 @@ namespace BlitzModIslanders
 
         public bool isDead()
         {
-            return this.value <= 0;
+            return this.value <= this.minVal;
         }
     }
 }
