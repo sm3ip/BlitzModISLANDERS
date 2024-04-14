@@ -6,27 +6,28 @@ namespace BlitzModIslanders
 {
     public class TupleFloatInt
     {
-        private int _value;
+        // simple class to store a positive float and a positive int
+        private int _intValue;
         private float _floatValue;
-        public TupleFloatInt(int value, float floatValue)
+        public TupleFloatInt(int intValue, float floatValue)
         {
-            _value = Math.Abs(value);
+            _intValue = Math.Abs(intValue);
             _floatValue = Math.Abs(floatValue);
         }
 
         //getters
-        public int getIntVal() {  return _value; }
+        public int getIntVal() {  return _intValue; }
         public float getFloatVal() { return _floatValue;}
 
         //setters
         public void setIntVal(int value) {
-            if (value < 0)
+            if (value >= 0) // guard to keep the value positive
             {
-                _value = value;
+                _intValue = value;
             }
         }
         public void setFloatVal(float value) {
-            if (value > 0)
+            if (value >= 0) // guard to keep the value positive
             {
                 _floatValue = value;
             }
