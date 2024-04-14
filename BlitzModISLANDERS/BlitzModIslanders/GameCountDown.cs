@@ -35,11 +35,6 @@ namespace BlitzModIslanders
             }
         }
 
-        public double GetCurrVal()
-        {
-            return this.value;
-        }
-
         public double getIncrease()
         {
             return this.increase;
